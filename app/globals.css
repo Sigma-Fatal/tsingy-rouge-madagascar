@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-sand text-charcoal font-inter;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    @apply bg-terracotta text-ivory;
+  }
+}
+
+@layer components {
+  .container-luxe {
+    @apply mx-auto max-w-8xl px-6 sm:px-8 lg:px-12;
+  }
+  .section-pad {
+    @apply py-20 md:py-[120px];
+  }
+  .pill {
+    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ease-luxe;
+  }
+  .btn-primary {
+    @apply pill bg-terracotta text-ivory shadow-cta hover:bg-terracotta-deep hover:shadow-cta-lg hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 focus-visible:ring-offset-ivory;
+  }
+  .btn-ghost {
+    @apply pill border border-charcoal/20 text-charcoal hover:border-charcoal hover:bg-charcoal/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2;
+  }
+  .card-luxe {
+    @apply rounded-card bg-ivory shadow-soft transition-all duration-500 ease-luxe hover:shadow-soft-lg;
+  }
+  .eyebrow {
+    @apply font-inter text-xs font-semibold uppercase tracking-[0.18em];
+  }
+  .h-section {
+    @apply font-fraunces text-3xl leading-tight tracking-tight md:text-h2;
+  }
+}
