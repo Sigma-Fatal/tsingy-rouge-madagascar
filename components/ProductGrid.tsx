@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Check, Star } from "lucide-react";
+import { ArrowRight, Check, Star, Tag } from "lucide-react";
 import { PACKAGES } from "@/lib/data";
 
-const FILTERS = ["Tous", "T-shirts", "Lambas", "Polos"] as const;
+const FILTERS = ["Tous", "T-shirts", "Lambas", "Enfants"] as const;
 type Filter = (typeof FILTERS)[number];
 
 export default function ProductGrid() {
@@ -20,13 +20,13 @@ export default function ProductGrid() {
         {/* En-tête */}
         <div className="mb-10 flex flex-col items-start justify-between gap-6 md:mb-14 md:flex-row md:items-end">
           <div className="max-w-2xl">
-            <p className="eyebrow mb-3 text-[#5c1c0d]">La Collection</p>
+            <p className="eyebrow mb-3 text-[#5c1c0d]">La Collection & Tarifs</p>
             <h2 className="h-section text-charcoal">
               Portez l'identité de Madagascar.
             </h2>
             <p className="mt-4 font-inter text-base leading-relaxed text-stone">
               Des pièces uniques, alliant confort moderne et héritage culturel. 
-              Trouvez le vêtement qui vous ressemble.
+              Tarifs préférentiels disponibles pour les revendeurs (prix de gros).
             </p>
           </div>
 
@@ -55,13 +55,13 @@ export default function ProductGrid() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-start md:gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 md:items-start md:gap-6">
           {visible.map((p) => (
             <article
               key={p.id}
               className={`group card-luxe relative flex flex-col overflow-hidden transition-all duration-500 ease-luxe hover:-translate-y-1.5 hover:shadow-soft-xl ${
                 p.highlighted
-                  ? "md:scale-105 ring-2 ring-[#5c1c0d] shadow-soft-xl"
+                  ? "ring-2 ring-[#5c1c0d] shadow-soft-xl"
                   : ""
               }`}
             >
@@ -82,7 +82,7 @@ export default function ProductGrid() {
               )}
 
               {/* Image */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-sand">
+              <div className="relative aspect-[4/3] overflow-hidden bg-sand">
                 <img
                   src={p.image}
                   alt={`Modèle ${p.name}`}
@@ -92,45 +92,45 @@ export default function ProductGrid() {
               </div>
 
               {/* Contenu */}
-              <div className="flex flex-1 flex-col p-6">
-                <div className="mb-2 flex items-center gap-1.5">
-                  <Star className="h-3.5 w-3.5 fill-[#D4A574] text-[#D4A574]" />
-                  <span className="font-inter text-sm font-medium text-charcoal">
-                    {p.rating}
-                  </span>
-                  <span className="font-inter text-xs text-stone">
-                    ({p.reviews} avis)
-                  </span>
-                </div>
-
-                <h3 className="font-fraunces text-h3 text-charcoal">
+              <div className="flex flex-1 flex-col p-5">
+                <h3 className="font-fraunces text-xl font-bold text-charcoal">
                   {p.name}
                 </h3>
+                <p className="mt-1 font-inter text-xs text-stone">{p.priceNote}</p>
 
-                <div className="mt-3 flex items-baseline gap-2">
-                  <span className="font-fraunces text-2xl font-bold text-[#5c1c0d]">
-                    {p.price}
-                  </span>
-                  <span className="font-inter text-xs text-stone">
-                    {p.priceNote}
-                  </span>
+                {/* Bloc Prix Détail / Gros */}
+                <div className="mt-4 mb-4 rounded-xl bg-sand/50 p-3 border border-charcoal/5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-inter text-xs text-stone">Prix Détail</span>
+                    <span className="font-fraunces text-lg font-bold text-[#5c1c0d]">
+                      {p.price}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between border-t border-charcoal/10 pt-2">
+                    <span className="inline-flex items-center gap-1 font-inter text-xs font-medium text-stone">
+                      <Tag className="h-3 w-3" /> Prix Gros
+                    </span>
+                    <span className="font-inter text-sm font-semibold text-[#1A1A1A]">
+                      {p.wholesalePrice}
+                    </span>
+                  </div>
                 </div>
 
-                <ul className="mt-5 flex-1 space-y-2.5">
+                <ul className="flex-1 space-y-2">
                   {p.features.map((f) => (
                     <li
                       key={f}
-                      className="flex items-start gap-2.5 font-inter text-sm text-charcoal/80"
+                      className="flex items-start gap-2 font-inter text-xs text-charcoal/80"
                     >
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#5c1c0d]" />
+                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#5c1c0d]" />
                       <span>{f}</span>
                     </li>
                   ))}
                 </ul>
 
                 <a
-                  href="#boutiques"
-                  className={`mt-6 justify-center ${
+                  href="#contact-whatsapp"
+                  className={`mt-5 justify-center text-sm py-2.5 ${
                     p.highlighted ? "btn-primary bg-[#5c1c0d] hover:bg-[#3a1006]" : "btn-ghost"
                   }`}
                 >

@@ -11,7 +11,8 @@ export type Package = {
   id: string;
   name: string;
   category: string;
-  price: string;
+  price: string; // Prix détail
+  wholesalePrice: string; // Prix gros
   priceNote: string;
   rating: number;
   reviews: number;
@@ -67,9 +68,10 @@ export const FEATURES = [
 export const PACKAGES: Package[] = [
   {
     id: "tshirt",
-    name: "T-shirt Signature",
+    name: "T-shirt Adulte",
     category: "T-shirts",
-    price: "À partir de 45 000 Ar",
+    price: "40 000 Ar",
+    wholesalePrice: "30 000 Ar",
     priceNote: "Coton premium",
     rating: 4.9,
     reviews: 124,
@@ -85,9 +87,10 @@ export const PACKAGES: Package[] = [
   },
   {
     id: "lamba",
-    name: "Lamba Tsingy Rouge",
+    name: "Lamba Tsingy Rouge (3 Boutons)",
     category: "Lambas",
-    price: "Dès 60 000 Ar",
+    price: "50 000 Ar",
+    wholesalePrice: "40 000 Ar",
     priceNote: "Le chef-d'œuvre local",
     rating: 5.0,
     reviews: 856,
@@ -102,21 +105,41 @@ export const PACKAGES: Package[] = [
     highlighted: true,
   },
   {
-    id: "polo",
-    name: "Polo Élégance",
-    category: "Polos",
-    price: "À partir de 55 000 Ar",
-    priceNote: "Pour un style affirmé",
+    id: "enfant-grand",
+    name: "T-shirt Enfant (8-12 ans)",
+    category: "Enfants",
+    price: "30 000 Ar",
+    wholesalePrice: "25 000 Ar",
+    priceNote: "Pour les plus grands",
     rating: 4.8,
-    reviews: 312,
+    reviews: 112,
     image: "/images/pub_3.jpeg",
     badge: "Nouveauté",
     features: [
-      "Maille de haute qualité",
-      "Finition soignée",
-      "Parfait pour les sorties ou le travail",
+      "Tissu doux et respirant",
+      "Résistant aux lavages fréquents",
+      "Parfait pour l'école ou les sorties",
     ],
-    cta: "Découvrir les polos",
+    cta: "Commander",
+    highlighted: false,
+  },
+  {
+    id: "enfant-petit",
+    name: "T-shirt Bébé/Enfant (2-6 ans)",
+    category: "Enfants",
+    price: "25 000 Ar",
+    wholesalePrice: "20 000 Ar",
+    priceNote: "Pour les tout-petits",
+    rating: 4.9,
+    reviews: 98,
+    image: "/images/pub_4.jpeg", // Utilisation de pub_4 (pareo) ou une autre image si vous préférez
+    badge: null,
+    features: [
+      "Coton 100% biologique",
+      "Coupe confortable",
+      "Impressions adaptées aux enfants",
+    ],
+    cta: "Commander",
     highlighted: false,
   },
 ];
@@ -127,42 +150,24 @@ export const CARS = [
     name: "SUV 4x4 Premium",
     type: "SUV",
     price: "À partir de 120 000 Ar / jour",
-    image:
-      "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80",
-    features: [
-      "Idéal pour les pistes",
-      "5 places assises",
-      "Climatisation",
-      "Chauffeur en option",
-    ],
+    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=80",
+    features: ["Idéal pour les pistes", "5 places assises", "Climatisation", "Chauffeur en option"],
   },
   {
     id: "berline",
     name: "Berline Confort",
     type: "Berline",
     price: "À partir de 80 000 Ar / jour",
-    image:
-      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80",
-    features: [
-      "Parfait pour la ville",
-      "4 places assises",
-      "Économique",
-      "GPS inclus",
-    ],
+    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&q=80",
+    features: ["Parfait pour la ville", "4 places assises", "Économique", "GPS inclus"],
   },
   {
     id: "minivan",
     name: "Minivan Familial",
     type: "Minivan",
     price: "À partir de 150 000 Ar / jour",
-    image:
-      "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&q=80",
-    features: [
-      "Jusqu'à 7 places",
-      "Grand coffre",
-      "Idéal pour les groupes",
-      "Sièges enfants disponibles",
-    ],
+    image: "https://images.unsplash.com/photo-1559416523-140ddc3d238c?w=800&q=80",
+    features: ["Jusqu'à 7 places", "Grand coffre", "Idéal pour les groupes", "Sièges enfants disponibles"],
   },
 ];
 
