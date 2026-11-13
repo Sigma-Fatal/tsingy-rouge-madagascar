@@ -2,132 +2,97 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, Menu, X, MessageCircle } from "lucide-react";
-import { NAV_LINKS } from "@/lib/data";
+import { ArrowRight, Menu, X, MessageCircle, Moon, Sun, Globe } from "lucide-react";
+import { useApp } from "@/lib/AppContext";
+import { dictionary } from "@/lib/dictionary";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
+  const { lang, setLang, theme, toggleTheme } = useApp();
+  const t = dictionary[lang];
 
   useEffect(() => {
-    const onScroll = () => {
-      const top = window.scrollY;
-      setScrolled(top > 12);
-      const h =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      setProgress(h > 0 ? (top / h) * 100 : 0);
-    };
-    onScroll();
+    const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] border-b border-transparent ${
-        scrolled
-          ? "bg-white/80 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl border-charcoal/5"
-          : "bg-gradient-to-b from-black/50 to-transparent backdrop-blur-sm border-white/10"
-      }`}
-    >
-      <div
-        className="h-[2px] bg-gradient-to-r from-[#D4A574] via-[#C04828] to-[#5c1c0d] transition-[width] duration-150"
-        style={{ width: `${progress}%` }}
-        aria-hidden="true"
-      />
+  const navLinks = [
+    { label: t.nav.brand, href: "#decouvrir" },
+    { label: t.nav.collection, href: "#collection" },
+    { label: t.nav.stores, href: "#boutiques" },
+    { label: t.nav.cars, href: "#location" },
+    { label: t.nav.events, href: "#evenements" }, // Nouveau lien
+  ];
 
-      <nav
-        className="container-luxe flex h-20 items-center justify-between"
-        aria-label="Navigation principale"
-      >
+  return (
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "bg-ivory/90 dark:bg-darkBg/90 shadow-soft backdrop-blur-xl" : "bg-gradient-to-b from-black/50 to-transparent backdrop-blur-sm"}`}>
+      <nav className="container-luxe flex h-20 items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center gap-3 group">
-          <div className="relative h-12 w-12 md:h-14 md:w-14 transition-transform duration-500 group-hover:scale-105">
-            <Image
-              src="/images/logo_tsingy_rouge.jpg"
-              alt="Logo Tsingy Rouge Madagascar"
-              fill
-              className="object-contain rounded-md"
-            />
+          <div className="relative h-12 w-12 md:h-14 md:w-14">
+            <Image src="/images/logo_tsingy_rouge.jpg" alt="Logo" fill className="object-contain rounded-md" />
           </div>
           <div className="hidden flex-col leading-none sm:flex">
-            <span className={`font-fraunces text-xl font-bold tracking-tight transition-colors duration-300 md:text-2xl ${scrolled ? "text-[#5c1c0d]" : "text-white"}`}>
-              TSINGY ROUGE
-            </span>
-            <span className={`mt-1 font-inter text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors duration-300 ${scrolled ? "text-stone" : "text-white/70"}`}>
-              Madagascar
-            </span>
+            <span className={`font-fraunces text-xl font-bold md:text-2xl ${scrolled ? "text-brand dark:text-white" : "text-white"}`}>TSINGY ROUGE</span>
+            <span className={`mt-1 font-inter text-[10px] uppercase tracking-widest ${scrolled ? "text-stone dark:text-gray-400" : "text-white/70"}`}>Madagascar</span>
           </div>
         </a>
 
         {/* Nav Center */}
-        <ul className="hidden items-center gap-10 lg:flex">
-          {NAV_LINKS.map((l) => (
+        <ul className="hidden items-center gap-6 lg:flex">
+          {navLinks.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
-                className={`relative font-inter text-sm font-medium transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:transition-all after:duration-300 hover:after:w-full ${
-                  scrolled 
-                    ? "text-charcoal/80 hover:text-[#5c1c0d] after:bg-[#5c1c0d]" 
-                    : "text-white/90 hover:text-white after:bg-white"
-                }`}
-              >
+              <a href={l.href} className={`text-sm font-medium transition-colors hover:text-brand ${scrolled ? "text-charcoal dark:text-gray-200" : "text-white"}`}>
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Right */}
-        <div className="flex items-center gap-4">
-          <a
-            href="#contact-whatsapp"
-            className={`btn-primary hidden sm:inline-flex shadow-lg transition-all duration-300 ${
-              scrolled 
-                ? "bg-[#5c1c0d] hover:bg-[#3a1006] text-white" 
-                : "bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20"
-            }`}
-          >
-            <MessageCircle className="h-4 w-4" />
-            Commander
+        {/* Right Actions (Langue, Thème, CTA) */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          
+          {/* Sélecteur de Langue */}
+          <div className={`hidden sm:flex items-center gap-1 text-sm font-medium ${scrolled ? "text-charcoal dark:text-white" : "text-white"}`}>
+            <Globe className="h-4 w-4" />
+            {["FR", "EN", "MG"].map((l) => (
+              <button key={l} onClick={() => setLang(l as any)} className={`px-1 hover:text-brand ${lang === l ? "text-brand font-bold" : "opacity-70"}`}>
+                {l}
+              </button>
+            ))}
+          </div>
+
+          {/* Bouton Thème */}
+          <button onClick={toggleTheme} className={`p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10 ${scrolled ? "text-charcoal dark:text-white" : "text-white"}`}>
+            {theme === "light" ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          </button>
+
+          {/* CTA WhatsApp */}
+          <a href="#contact-whatsapp" className="btn-primary hidden sm:inline-flex bg-brand hover:bg-brandDeep text-white">
+            <MessageCircle className="h-4 w-4" /> {t.nav.order}
           </a>
 
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className={`inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors lg:hidden ${scrolled ? "text-charcoal" : "text-white"}`}
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-          >
-            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {/* Mobile Menu Button */}
+          <button onClick={() => setOpen(!open)} className={`lg:hidden p-2 ${scrolled ? "text-charcoal dark:text-white" : "text-white"}`}>
+            {open ? <X /> : <Menu />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Menu Mobile */}
       {open && (
-        <div className={`border-t backdrop-blur-xl lg:hidden transition-colors duration-300 ${scrolled ? "border-charcoal/10 bg-ivory/95" : "border-white/10 bg-black/90"}`}>
-          <ul className="container-luxe flex flex-col py-6">
-            {NAV_LINKS.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className={`block py-3 font-inter text-lg font-medium ${scrolled ? "text-charcoal" : "text-white"}`}
-                >
-                  {l.label}
-                </a>
-              </li>
+        <div className="lg:hidden bg-ivory dark:bg-darkSurface border-t border-charcoal/10 dark:border-white/10">
+          <ul className="container-luxe flex flex-col py-4">
+            {navLinks.map((l) => (
+              <li key={l.href}><a href={l.href} onClick={() => setOpen(false)} className="block py-3 text-charcoal dark:text-white">{l.label}</a></li>
             ))}
-            <li className="pt-4 mt-2 border-t border-white/10">
-              <a
-                href="#contact-whatsapp"
-                onClick={() => setOpen(false)}
-                className="btn-primary w-full justify-center bg-[#5c1c0d] text-white py-3"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Commander
-              </a>
+            {/* Langues Mobile */}
+            <li className="flex gap-4 py-3 border-t border-charcoal/10 dark:border-white/10">
+              {["FR", "EN", "MG"].map((l) => (
+                <button key={l} onClick={() => setLang(l as any)} className={`px-2 py-1 rounded ${lang === l ? "bg-brand text-white" : "bg-black/5 dark:bg-white/10 dark:text-white"}`}>{l}</button>
+              ))}
             </li>
           </ul>
         </div>

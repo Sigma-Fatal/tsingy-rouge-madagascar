@@ -3,14 +3,16 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-  }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
   body {
-    @apply bg-sand text-charcoal font-inter;
+    @apply bg-sand text-charcoal transition-colors duration-300 font-inter;
     letter-spacing: -0.01em;
   }
+  /* Mode sombre global */
+  .dark body {
+    @apply bg-darkBg text-white;
+  }
+
   ::selection {
     @apply bg-terracotta text-ivory;
   }

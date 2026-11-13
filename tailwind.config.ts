@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: 'class', // <-- IMPORTANT POUR LE MODE SOMBRE
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -9,15 +10,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        terracotta: {
-          DEFAULT: "#C04828",
-          deep: "#8B2E14",
-        },
+        terracotta: { DEFAULT: "#C04828", deep: "#8B2E14" },
         sand: "#F4EDE2",
         ivory: "#FDFBF7",
         charcoal: "#1A1A1A",
         stone: "#6B6560",
         gold: "#D4A574",
+        brand: "#5c1c0d",
+        brandDeep: "#3a1006",
+        darkBg: "#121212",      // Pour le mode sombre
+        darkSurface: "#1E1E1E", // Pour les cartes en mode sombre
       },
 fontFamily: {
   fraunces: ["Fraunces", "Georgia", "serif"],
